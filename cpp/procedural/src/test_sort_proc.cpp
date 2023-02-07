@@ -1,5 +1,5 @@
 #include <cmath>
-#include "sorts.h"
+#include "sort_proc.h"
 #include "gtest/gtest.h"
 
 using namespace std;
@@ -27,12 +27,14 @@ const std::vector < std::string> samples = {
 };
 
 // number of arrangements of length m from items (duplication ok)
-int arrangements(const std::vector<std::string> &items, int len) {
+template <typename T>
+int arrangements(const std::vector<T> &items, int len) {
     return (int) pow(items.size(),len);
 }
 
 // i'th arrangment
-std::vector < std::string > arrangement(const std::vector<std::string> &items, int len, int i) {
+template <typename T>
+std::vector < T > arrangement(const std::vector< T > &items, int len, int i) {
   std::vector < std::string > ans(len,"");
   for (int k=0; k<len; ++k) {
     ans[k] = items[i % items.size()];
@@ -81,29 +83,6 @@ TEST(Sort, Proc) {
       std::vector < std::string > result(items);
 
       sort_proc(result);
-
-      ASSERT_EQ(expect,result) << " for items = " << items;
-    }
-  }
-}
-
-// test functional style; all arrangments of samples, len < 4
-TEST(Sort, Func) {
-  std::vector < std::string > items = {};
-  std::vector < std::string > expect = {};
-  std::vector < std::string> result;
-
-  for (int len = 0; len < 4; ++len) {
-    int n = arrangements(samples,len);
-    for (int i = 0; i < n; ++i) {
-      auto items = arrangement(samples,len,i);
-
-      std::vector < std::string > expect(items);
-      std::sort(expect.begin(),expect.end());
-
-      std::vector < std::string > result(items);
-
-      result = sort_func(items);
 
       ASSERT_EQ(expect,result) << " for items = " << items;
     }
