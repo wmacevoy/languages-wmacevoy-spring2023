@@ -1,5 +1,5 @@
 #include <cmath>
-#include "sort_proc.h"
+#include "sort_func.h"
 #include "gtest/gtest.h"
 
 using namespace std;
@@ -67,8 +67,8 @@ TEST(Sort,Arrangements) {
 }
 
 // test procedural style; all arrangments of samples, len < 4
-TEST(Sort, Proc) {
-  std::vector < std::string > items = {};
+TEST(Sort, Func) {
+  std::vector < std::string > duplicate = {};
   std::vector < std::string > expect = {};
   std::vector < std::string> result;
 
@@ -76,13 +76,13 @@ TEST(Sort, Proc) {
     int n = arrangements(samples,len);
     for (int i = 0; i < n; ++i) {
       auto items = arrangement(samples,len,i);
+      auto dup = items;
 
       std::vector < std::string > expect(items);
       std::sort(expect.begin(),expect.end());
 
-      std::vector < std::string > result(items);
-
-      sort_proc(result);
+      std::vector < std::string > result = sort_func(items);
+      ASSERT_EQ(dup,items) << " for items = " << items;
 
       ASSERT_EQ(expect,result) << " for items = " << items;
     }
