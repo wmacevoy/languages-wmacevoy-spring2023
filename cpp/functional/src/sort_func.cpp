@@ -1,50 +1,28 @@
+#include <iostream>
 #include "sort_func.h"
+#include "utility.h"
+#include "merger.h"
 
-// pcode sort first half, sort second half, then return merged version
-
-std::vector<std::string>  merge(const std::vector<std::string> &first, const std::vector<std::string> &second) {
-  auto i = first.begin();
-  auto j = second.begin();
-
-  std::vector<std::string> ans;
-
-  while (i != first.end() && j != second.end()) {
-    if (*j < *i) {
-      ans.push_back(*j);
-      ++j;
-    } else {
-      ans.push_back(*i);
-      ++i;
-    }
-  }
-
-  ans.insert(ans.end(),i,first.end());
-  ans.insert(ans.end(),j,second.end());
-
-  return ans;
-
-}
-
-std::vector<std::string>  sort_func(std::vector<std::string>::const_iterator begin, std::vector<std::string>::const_iterator end) {
-  size_t size =  end - begin;
+template <typename T, typename Ordered = std::less < T > >
+std::vector<T>  sort_func(typename std::vector<T>::const_iterator begin, 
+                          typename std::vector<T>::const_iterator end) {
+  typename std::vector<T>::difference_type size =  end - begin;
   if (size <= 1) {
-    return std::vector < std::string > (begin,end);
+    return std::vector<T>(begin,end);
   }
 
-  // int a[10];
-  // it b = 0; e = 10;  sort(&a[0],&a[10])
-  auto firstBegin = begin;
-  auto firstEnd = firstBegin + size/2;
-  auto secondBegin = firstEnd;
-  auto secondEnd = end;
+  auto a0 = begin;
+  auto a1 = a0 + size/2;
+  auto b0 = a1;
+  auto b1 = end;
 
-  auto firstSorted = sort_func(firstBegin,firstEnd);
-  auto secondSorted = sort_func(secondBegin,secondEnd);
+  auto a = sort_func<T,Ordered>(a0,a1);
+  auto b = sort_func<T,Ordered>(b0,b1);
 
-  return merge(firstSorted,secondSorted);  
-
+  merger<typename std::vector<T>::const_iterator,typename std::vector<T>::const_iterator,Ordered> m(a.begin(),a.end(),b.begin(),b.end());
+  return std::vector < T > (m.begin(),m.end());
 }
 
 std::vector<std::string>  sort_func(const std::vector<std::string> &items) {
-  return sort_func(items.begin(),items.end());
+  return sort_func<std::string>(items.cbegin(),items.cend());
 }
