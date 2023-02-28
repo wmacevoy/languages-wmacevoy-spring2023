@@ -4,17 +4,22 @@
 #include <iostream>
 #include <vector>
 
-template <typename T>
-std::ostream& operator<<(std::ostream &out, const std::vector <T> &v) {
+template<typename T>
+concept ConstIterable = requires(T a)
+{
+    { std::cbegin<T>(a) } -> std::convertible_to<typename T::const_iterator>;
+    { std::cend<T>(a) } -> std::convertible_to<typename T::const_iterator>;
+    not std::convertible_to<T,std::basic_string<typename T::value_type>>;
+};
+
+template <ConstIterable CI>
+std::ostream& operator<<(std::ostream &out, const CI &ci) {
   const char *pfx = "[";
-  for (typename std::vector<T>::const_iterator i=v.begin(); i != v.end(); ++i) {
-    const typename std::vector<T>::value_type &x = *i;
-    out << pfx;
-    out << x; 
+  for (const auto &x : ci) {
+    out << pfx << x; 
     pfx=",";
   }
-  out << "]";
-  return out;
+  return out << "]";
 }
 
 // number of arrangements of length m from items (duplication ok)
