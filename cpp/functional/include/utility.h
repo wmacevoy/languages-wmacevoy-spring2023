@@ -7,10 +7,8 @@
 template <typename T>
 std::ostream& operator<<(std::ostream &out, const std::vector <T> &v) {
   const char *pfx = "[";
-  for (typename std::vector<T>::const_iterator i=v.begin(); i != v.end(); ++i) {
-    const typename std::vector<T>::value_type &x = *i;
-    out << pfx;
-    out << x; 
+  for (const auto &x : v) {
+    out << pfx << x;
     pfx=",";
   }
   out << "]";
