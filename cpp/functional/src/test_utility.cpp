@@ -6,6 +6,71 @@
 
 #include "utility.h"
 
+TEST(Utility,Vec) {
+  std::vector < std::string > expect = { };
+  std::vector < std::string > result = vec();
+  ASSERT_EQ(expect,result);
+}
+
+TEST(Utility,VecString) {
+  std::string s = "cat";
+  std::vector < std::string > expect = {"cat"};
+  std::vector < std::string > result = vec(s);
+  ASSERT_EQ(expect,result);
+}
+
+TEST(Utility,VecVector) {
+  std::vector < std::string > v = {"x","y","z"};
+  std::vector < std::string > expect = {"x","y","z"};
+  std::vector < std::string > result = vec(v);
+  ASSERT_EQ(expect,result);
+}
+
+TEST(Utility,VecStringVector) {
+  std::string s = "cat";
+  std::vector < std::string > v = {"x","y","z"};
+  std::vector < std::string > expect = {"cat","x","y","z"};
+  std::vector < std::string > result = vec(s,v);
+  ASSERT_EQ(expect,result);
+}
+
+TEST(Utility,VecVectorString) {
+  std::vector < std::string > v = {"x","y","z"};
+  std::string s = "cat";
+  std::vector < std::string > expect = {"x","y","z","cat"};
+  std::vector < std::string > result = vec(v,s);
+  ASSERT_EQ(expect,result);
+}
+
+TEST(Utility,VecVectorVector) {
+  std::vector < std::string > v = {"x","y","z"};
+  std::vector < std::string > w = {"a","b","c"};  
+  std::vector < std::string > expect = {"x","y","z","a","b","c"};
+  std::vector < std::string > result = vec(v,w);
+  ASSERT_EQ(expect,result);
+}
+
+TEST(Utility,Slice) {
+  std::vector < std::string > v = {"x","y","z"};
+  std::vector < std::string > expect = {"y"};
+  std::vector < std::string > result = slice(v,1,2);
+  ASSERT_EQ(expect,result);
+}
+
+TEST(Utility,Swap) {
+  std::vector < std::string > v = {"x","y","z"};
+  std::vector < std::string > expect = {"y","x","z"};
+  std::vector < std::string > result = swap(v,0,1);
+  ASSERT_EQ(expect,result);
+}
+
+TEST(Utility,MinIndex) {
+  std::vector < std::string > v = {"x","y","a","z"};
+  size_t expect = 2;
+  size_t result = minIndex(v,0,v.size());
+  ASSERT_EQ(expect,result);
+}
+
 TEST(Utility,VectorPrint) {
     std::ostringstream oss;
     std::vector < std::string > a = { "x", "y", "z" };
