@@ -53,7 +53,7 @@ TEST(RegEx,CatsAndDogs) {
 }
 
 TEST(RegEx,PhoneNum) {
-  std::basic_regex re("your ad here");
+  std::basic_regex re("[0-9]{10}");
 
   std::vector<std::string> pass = {
     "907-255-1234",
