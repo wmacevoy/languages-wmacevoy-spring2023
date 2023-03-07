@@ -14,7 +14,7 @@ TEST(RegEx,AOk) {
 }
 
 TEST(RegEx,BNotOk) {
-  std::basic_regex re("a");
+  std::basic_regex re("a",std::regex::extended);
   std::string candidate = "b";
   bool ans = std::regex_match(candidate.begin(),candidate.end(),re);
 
@@ -22,7 +22,7 @@ TEST(RegEx,BNotOk) {
 }
 
 TEST(RegEx,Apple) {
-  std::basic_regex re("a");
+  std::basic_regex re("a",std::regex::extended);
   std::string candidate = "apple";
   bool ans = std::regex_match(candidate.begin(),candidate.end(),re);
 
@@ -30,7 +30,7 @@ TEST(RegEx,Apple) {
 }
 
 TEST(RegEx,NyanCatKing) {
-  std::basic_regex re(".*cat.*");
+  std::basic_regex re(".*cat.*",std::regex::extended);
   std::string candidate = "nyan cat is king";
   bool ans = std::regex_match(candidate.begin(),candidate.end(),re);
 
@@ -39,7 +39,7 @@ TEST(RegEx,NyanCatKing) {
 
 
 TEST(RegEx,CatsAndDogs) {
-  std::basic_regex re("(cat|dog)(|s)");
+  std::basic_regex re("(cat|dog)(|s)",std::regex::extended);
   std::match_results<std::string::iterator> results;
   std::string candidate = "the cats is dog dogs cat dog";
   bool ans = std::regex_search(candidate.begin(),candidate.end(),results,re);
@@ -53,7 +53,7 @@ TEST(RegEx,CatsAndDogs) {
 }
 
 TEST(RegEx,PhoneNum) {
-  std::basic_regex re("[0-9]{10}");
+  std::basic_regex re("[0-9]{10}",std::regex::extended);
 
   std::vector<std::string> pass = {
     "907-255-1234",
@@ -67,12 +67,10 @@ TEST(RegEx,PhoneNum) {
   };
 
   for (auto ok : pass) {
-    ASSERT_TRUE(std::regex_match(ok.begin(),ok.end(),re));
+    ASSERT_TRUE(std::regex_match(ok.begin(),ok.end(),re)) << " for " << ok;
   }
 
   for (auto bad : fail) {
-    ASSERT_FALSE(std::regex_match(bad.begin(),bad.end(),re));
+    ASSERT_FALSE(std::regex_match(bad.begin(),bad.end(),re)) << " for " << bad;
   }
 }
-
-
