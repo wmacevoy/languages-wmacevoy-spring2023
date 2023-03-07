@@ -52,4 +52,27 @@ TEST(RegEx,CatsAndDogs) {
     std::cout << "match " << i << ": " << results[i] << std::endl;
 }
 
+TEST(RegEx,PhoneNum) {
+  std::basic_regex re("your ad here");
+
+  std::vector<std::string> pass = {
+    "907-255-1234",
+    "(907) 255-1234",
+    "9072551234" };
+
+  std::vector<std::string> fail = {
+    "07-255-1234",
+    "(907 255-1234",
+    "90725512345"
+  };
+
+  for (auto ok : pass) {
+    ASSERT_TRUE(std::regex_match(ok.begin(),ok.end(),re));
+  }
+
+  for (auto bad : fail) {
+    ASSERT_FALSE(std::regex_match(bad.begin(),bad.end(),re));
+  }
+}
+
 
