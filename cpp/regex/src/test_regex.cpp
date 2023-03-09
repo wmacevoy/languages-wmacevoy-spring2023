@@ -53,21 +53,32 @@ TEST(RegEx,CatsAndDogs) {
 }
 
 TEST(RegEx,PhoneNum) {
-  std::basic_regex re("[0-9]{10}",std::regex::extended);
+  // std::basic_regex re("([0-9]{10}|[0-9]{3}-[0-9]{3}-[0-9]{4}|\\([0-9]{3}\\) [0-9]{3}-[0-9]{4})",std::regex::extended);
+  //    std::basic_regex re("([0-9]{10}|[0-9]{3}-[0-9]{3}-[0-9]{4}|\\([0-9]{3}\\) [0-9]{3}-[0-9]{4})",std::regex::extended);
+  //  std::basic_regex re(R"=(([0-9]{3})|\(([0-9]{3})\))[- .]?([0-9]{3})[- .]?([0-9]{4})=",std::regex::extended);
+  //std::basic_regex re(R"=()[- .]?([0-9]{3})[- .]?([0-9]{4})=",std::regex::extended);
+  std::basic_regex re(R"=(([0-9]{3}|\(([0-9]{3})\))[- .]?([0-9]{3})[- .]?([0-9]{4}))=",std::regex::extended);    
 
   std::vector<std::string> pass = {
+    "9072551234", 
     "907-255-1234",
     "(907) 255-1234",
-    "9072551234" };
+  };
 
   std::vector<std::string> fail = {
+    "90725512345",
     "07-255-1234",
     "(907 255-1234",
-    "90725512345"
   };
 
   for (auto ok : pass) {
-    ASSERT_TRUE(std::regex_match(ok.begin(),ok.end(),re)) << " for " << ok;
+     std::match_results<std::string::iterator> results;
+     bool ans = std::regex_search(ok.begin(),ok.end(),results,re);
+     std::string area_code = (results[2] != "") ? results[2] : results[1];
+     std::string prefix = results[3];
+     std::string line_number = results[4];
+     std::cout << area_code << "," << prefix << "," << line_number << std::endl;     
+     ASSERT_TRUE(ans);
   }
 
   for (auto bad : fail) {

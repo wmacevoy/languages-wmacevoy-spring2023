@@ -4,6 +4,22 @@
 # https://stackoverflow.com/questions/59895/how-can-i-get-the-source-directory-of-a-bash-script-from-within-the-script-itsel
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+FLUTTER_DIR="$SCRIPT_DIR/env/flutter"
+
+if [ ! -x "$FLUTTER_DIR/bin/flutter" ]
+then
+    echo "Cannot find flutter as '$FLUTTER_DIR/bin/flutter'"
+    exit 1
+fi
+
+if [[ ":$PATH:" != *":$FLUTTER_DIR/bin/flutter/bin:"* ]]; then
+    PATH="$FLUTTER_DIR/bin/flutter/bin:$PATH"
+fi
+
+
+
+if ! egrep '
+
 if ! cd "$SCRIPT_DIR"
 then
     echo "Could not change directory to script directory '$SCRIPT_DIR'"
