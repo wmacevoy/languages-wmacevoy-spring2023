@@ -5,44 +5,11 @@
 
 using namespace std;
 
-// print out vectors in [a,b,c,...] format:
-template <typename T>
-std::ostream& operator<<(std::ostream &out, const std::vector < T > &a) {
-  out << "[";
-  bool first = true;
-  for (auto x : a) {
-    if (first) {
-      first = false;
-    } else {
-      out << ",";
-    }
-    out << x;
-  }
-  out << "]";
-  return out;
-}
-
 // sample items to test on
 const std::vector < std::string> samples = { 
       "", " ", "1", "11", "2", "a", "apple", "cart"
 };
 
-// number of arrangements of length m from items (duplication ok)
-template <typename T>
-int arrangements(const std::vector<T> &items, int len) {
-    return (int) pow(items.size(),len);
-}
-
-// i'th arrangment
-template <typename T>
-std::vector < T > arrangement(const std::vector< T > &items, int len, int i) {
-  std::vector < std::string > ans(len,"");
-  for (int k=0; k<len; ++k) {
-    ans[k] = items[i % items.size()];
-    i = i / items.size();
-  }
-  return ans;
-}
 
 // Test that arrangements are correct
 TEST(Sort,Arrangements) {
