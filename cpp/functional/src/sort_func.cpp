@@ -37,6 +37,9 @@ std::vector<std::string> merge(const std::vector<std::string> &a, const std::vec
 }
 
 std::vector<std::string>  sort_func(const std::vector<std::string> &items) {
+
+  // replace this with your version; you can add addtional functions above as well.
+  
   if (items.size() <= 1) { return items; }
   auto a = sort_func(slice(items,0,items.size()/2));
   auto b = sort_func(slice(items,items.size()/2,items.size()));

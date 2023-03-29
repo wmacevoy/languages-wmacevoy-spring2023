@@ -1,18 +1,27 @@
 #include <cmath>
-#include "sort_proc.h"
+#include <vector>
+#include <string>
+#include <sstream>
 #include "gtest/gtest.h"
+
 #include "utility.h"
 
-using namespace std;
+TEST(Utility,VectorPrint) {
+    std::ostringstream oss;
+    std::vector < std::string > a = { "x", "y", "z" };
+    oss << a;
+    std::string equiv = oss.str();
+    ASSERT_EQ("[x,y,z]",equiv);
+}
 
-// sample items to test on
-const std::vector < std::string> samples = { 
-      "", " ", "1", "11", "2", "a", "apple", "cart"
-};
+TEST(Utility,STRING) {
+    std::vector < std::string > a = { "x", "y", "z" };
+    ASSERT_EQ("[x,y,z]",STRING(a));
 
+}
 
 // Test that arrangements are correct
-TEST(Sort,Arrangements) {
+TEST(Utility,Arrangements) {
   std::vector < std::string > s1 = {"x"};
   std::vector < std::string > s3 = {"x","y","z"};
 
@@ -32,27 +41,4 @@ TEST(Sort,Arrangements) {
   ASSERT_EQ(s3_3,arrangement(s3,4,3));
   ASSERT_EQ(s3_9,arrangement(s3,4,9));
   ASSERT_EQ(s3_80,arrangement(s3,4,80));
-}
-
-// test procedural style; all arrangments of samples, len < 4
-TEST(Sort, Proc) {
-  std::vector < std::string > items = {};
-  std::vector < std::string > expect = {};
-  std::vector < std::string> result;
-
-  for (int len = 0; len < 4; ++len) {
-    int n = arrangements(samples,len);
-    for (int i = 0; i < n; ++i) {
-      auto items = arrangement(samples,len,i);
-
-      std::vector < std::string > expect(items);
-      std::sort(expect.begin(),expect.end());
-
-      std::vector < std::string > result(items);
-
-      sort_proc(result);
-
-      ASSERT_EQ(expect,result) << " for items = " << items;
-    }
-  }
 }
