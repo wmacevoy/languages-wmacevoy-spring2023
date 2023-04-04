@@ -1,0 +1,41 @@
+#
+
+sequence of bytes -> utf8 decode -> sequence of codepoints ( 'x' greek lambda )
+
+secquence of codepoints -> set of regular expressions -> sequence of tokens ->
+   identifier or literal-double
+
+// You have a alphabet of Tokens (also called terminals)
+Sigma = { NUMBER, STRING, IF, THEN, GROUP, EQUALS, ID, EOL }
+
+// Rules, which are of the form <non-terminal> ::= string of terminals and non-terminals.
+
+program ::= program statement
+program ::= 
+statement ::= assignment_statement EOL
+statement ::= if_statement EOL
+if_statement ::= IF expression THEN statement
+expression ::= ID
+expression ::= NUMBER
+expression ::= STRING
+assignment_statement ::= ID EQUALS expression
+
+program // start rule 
+program statement // program ::= program statement
+program statement statement // // program ::= program statement
+statement statment // program ::=
+assignement_statemend EOL statement // statement ::= assignment_statement EOL on first statement
+assignment_statement EOL if_statement EOL // statement ::= if_statement EOL on second statment
+ID EQUALS expression EOL IF expression THEN statement EOL
+ID EQUALS NUMBER EOL IF ID THEN ID EQUALS STRING EOL
+
+
+rule ::= rule1 rule2 rule3
+rule ::= rule1  rule3
+
+rule := rule1 rule2_many ruld3
+
+rule2_many :=  | rule2_many rule2
+
+
+Parse Tree is the 
