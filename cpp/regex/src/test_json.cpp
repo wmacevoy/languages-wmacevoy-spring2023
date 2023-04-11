@@ -7,6 +7,9 @@
 
 
 TEST(RegEx,JsonStrings) {
+  //
+  // TODO: change your-ad-here to a regular expression that passes this test
+  //
   std::basic_regex re(R"=(your-ad-here)=",std::regex::extended);    
 
   std::vector<std::string> pass = {
@@ -43,13 +46,32 @@ TEST(RegEx,JsonStrings) {
     R"=("\1")="
   };
 
+  std::vector<std::pair<std::string,bool>> incorrect;
+
   for (auto ok : pass) {
      std::match_results<std::string::iterator> results;
      bool ans = std::regex_search(ok.begin(),ok.end(),results,re);
-     ASSERT_TRUE(ans);
+     if (ans != true || results[0] != ok) {
+       incorrect.push_back(std::make_pair(ok,ans));
+     }
   }
 
   for (auto bad : fail) {
-    ASSERT_FALSE(std::regex_match(bad.begin(),bad.end(),re)) << " for " << bad;
+     std::match_results<std::string::iterator> results;
+     bool ans = std::regex_search(bad.begin(),bad.end(),results,re);
+     if (ans == true && results[0] == bad) {
+       incorrect.push_back(std::make_pair(bad,ans));
+     }
   }
+
+  for (auto err : incorrect) {
+    if (err.second == true) {
+      std::cout << "Incorrectly matched: " ;
+    } else {
+      std::cout << "Incorrectly failed: ";
+    }
+    std::cout << err.first << std::endl;
+  }
+
+  ASSERT_TRUE(incorrect.empty());
 }
