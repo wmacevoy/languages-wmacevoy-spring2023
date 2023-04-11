@@ -2,9 +2,9 @@ FROM node:18-bullseye
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    				   time curl build-essential gdb cmake git nano python3 \
+    				   time curl build-essential gdb cmake git nano python3 emacs-nox vim dos2unix \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+ && /bin/rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 EXPOSE 8000
